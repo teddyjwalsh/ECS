@@ -1,0 +1,52 @@
+#ifndef COMPONENT_ARRAY_H_
+#define COMPONENT_ARRAY_H_
+
+#include <deque>
+#include <vector>
+
+#include "component.h"
+
+class ComponentArrayBase
+{
+public:
+    ComponentArrayBase(CompType in_type):
+        _type(in_type)
+    {
+    }
+    virtual int add() = 0;
+private:
+    CompType _type;
+};
+
+template <class T>
+class ComponentArray : public ComponentArrayBase
+{
+public:
+    ComponentArray(CompType in_type):
+        ComponentArrayBase(in_type)
+    {
+    }
+
+    int add() override
+    {
+        int out_index = -1;
+        if (_unused.empty())
+        {
+            _array.push_back(T());
+            out_index = _array.size() - 1;
+        } 
+        else
+        {
+            out_index = _unused.front();
+            _unused.pop_front();
+            _array[out_index] = T();
+        }
+        return out_index;
+    }
+
+    std::vector<T> _array;
+    std::deque<int> _unused;
+};
+
+#endif  // COMPONENT_ARRAY_H_
+
