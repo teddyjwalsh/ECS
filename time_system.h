@@ -8,13 +8,12 @@
 class SysTime : public System
 {
 public:
-    void update(std::shared_ptr<ComponentArrayBase> in_array, 
-                double dt) override
+    void update(double dt) override
     {
-        auto array = get_derived<CompTime>(in_array);
-        CompTime& time_comp = array->_array[0];
+        std::vector<CompTime>& array = get_array<CompTime>();
+        CompTime& time_comp = array[0];
         time_comp.current_time += dt;
-        std::cout << "Time: " << time_comp.current_time << "\n";
+        std::cout << "TIME " << time_comp.current_time << "\n";
     }
 };
 

@@ -7,6 +7,7 @@
 
 #include "system.h"
 #include "component_array.h"
+#include "time_component.h"
 #include "entity.h"
 #include "physics_component.h"
 #include "type_id.h"
@@ -48,20 +49,30 @@ public:
         return _arrays[type_id<ComponentType>]->add(get_component);
     }
 
+    template <class ComponentType>
+    CompIndex add_component(ComponentType proto)
+    {
+        assert(!_arrays.empty());
+
+        return _arrays[type_id<ComponentType>]->add(get_component, proto);
+    }
+
     EntityId add_entity(std::vector<CompType> in_types)
     {
-        _entities[_entity_counter] = Entity();
+        EntityId out_id = _entity_counter;
+        _entities[out_id] = Entity();
         for (auto it : in_types)
         {
-            _entities[_entity_counter]._components[it] = add_component(it);
+            _entities[out_id]._components[it] = add_component(it);
         }
         _entity_counter += 1;
+        return out_id; 
     }
 
     void add_system(std::shared_ptr<System> in_system)
     {
         _systems.push_back(in_system);
-        _systems.back()->init(get_array_func);
+        _systems.back()->pre_init(get_array_func);
     }
 
     ComponentArrayBase * get_array_p(CompType in_type)
@@ -99,7 +110,11 @@ public:
 
     void update()
     {
-        
+        auto ta = std::dynamic_pointer_cast<ComponentArray<CompTime>>(_arrays[type_id<CompTime>]);
+        for (auto& sys : _systems)
+        {
+            sys->update(0.1);
+        }        
     }
 
     std::unordered_map<CompType, std::shared_ptr<ComponentArrayBase>> _arrays;

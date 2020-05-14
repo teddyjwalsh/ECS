@@ -34,8 +34,7 @@ public:
         _type = type_id<CompPickupper>;
     }
 
-    void update(std::shared_ptr<ComponentArrayBase> in_array,
-                double dt) override
+    void update(double dt) override
     {
         std::vector<CompPickupper>& pickupper_vec = get_array<CompPickupper>();
         std::vector<CompPickupee>& pickupee_vec = get_array<CompPickupee>();

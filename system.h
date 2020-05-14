@@ -7,10 +7,9 @@
 class System
 {
 public:
-    virtual void update(std::shared_ptr<ComponentArrayBase> in_array, 
-                double dt) = 0;
+    virtual void update(double dt) = 0;
 
-    void init(std::function<ComponentArrayBase*(CompType)> f)
+    void pre_init(std::function<ComponentArrayBase*(CompType)> f)
     {
         get_array_base = f;
     }

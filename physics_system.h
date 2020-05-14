@@ -18,11 +18,10 @@ public:
         _type = type_id<CompPhysics>;
     }
 
-    void update(std::shared_ptr<ComponentArrayBase> in_array,
-                double dt) override
+    void update(double dt) override
     {
         std::vector<CompPhysics>& phys_vec = 
-            std::dynamic_pointer_cast<ComponentArray<CompPhysics>>(in_array)->_array;
+            get_array<CompPhysics>(); 
         assert(phys_vec.size());
         double current_time = phys_vec[0].sibling<CompTime>()->current_time; 
         for (auto it = phys_vec.begin(); it != phys_vec.end(); ++it)
@@ -30,13 +29,8 @@ public:
             CompPosition * pos_comp = (*it).sibling<CompPosition>();
             pos_comp->pos.y = pos_comp->pos.y + (*it).vel.y*dt;
             (*it).vel.y = (*it).vel.y + 9.8*dt;
-            std::cout << "POS: " << (*it).vel.y << "\n";
+            std::cout << "POS: " << pos_comp->pos.y << "\n";
         }
-    }
-
-    CompType get_type() const
-    {
-        return _type;
     }
 };
 

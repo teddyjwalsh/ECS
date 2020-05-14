@@ -50,6 +50,25 @@ public:
         return out_index;
     }
 
+    int add(std::function<Component*(CompType, EntityId)> f, T proto)
+    {
+        int out_index = -1;
+        if (_unused.empty())
+        {
+            _array.push_back(proto);
+            _array.back().init(f);
+            out_index = _array.size() - 1;
+        } 
+        else
+        {
+            out_index = _unused.front();
+            _unused.pop_front();
+            _array[out_index] = proto;
+            _array[out_index].init(f);
+        }
+        return out_index;
+    }
+
     Component * get_component(CompIndex index) override
     {
         return static_cast<Component*>(&_array[index]);
