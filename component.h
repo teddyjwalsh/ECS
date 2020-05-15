@@ -16,13 +16,14 @@ public:
     SibType * sibling()
     {
         SibType * sib = static_cast<SibType*>(
-            get_component(_type, _entity_id));
+            get_component(type_id<SibType>, _entity_id));
         return sib;
     } 
 
-    void init(std::function<Component*(CompType, EntityId)>& f)
+    void init(std::function<Component*(CompType, EntityId)>& f, EntityId eid)
     {
         get_component = f;
+        _entity_id = eid;
         set_type();
     }
 

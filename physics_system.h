@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include <glm/ext.hpp>
 
 #include "component_manager.h"
 #include "type_id.h"
@@ -22,14 +23,18 @@ public:
     {
         std::vector<CompPhysics>& phys_vec = 
             get_array<CompPhysics>(); 
+        std::vector<CompPosition>& pos_vec = 
+            get_array<CompPosition>(); 
         assert(phys_vec.size());
         double current_time = phys_vec[0].sibling<CompTime>()->current_time; 
         for (auto it = phys_vec.begin(); it != phys_vec.end(); ++it)
         {
             CompPosition * pos_comp = (*it).sibling<CompPosition>();
+            CompBounds * bounds_comp = (*it).sibling<CompBounds>();
             pos_comp->pos.y = pos_comp->pos.y + (*it).vel.y*dt;
             (*it).vel.y = (*it).vel.y + 9.8*dt;
-            std::cout << "POS: " << pos_comp->pos.y << "\n";
+
+            std::cout << "Phys pos " << glm::to_string(pos_comp->pos) << "\n";
         }
     }
 };

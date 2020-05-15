@@ -16,7 +16,7 @@ public:
     }
 
     //virtual int add() = 0;
-    virtual int add(std::function<Component*(CompType, EntityId)> f) = 0; 
+    virtual int add(std::function<Component*(CompType, EntityId)> f, EntityId eid) = 0; 
     virtual Component * get_component(CompIndex index) = 0;
 protected:
     CompType _type;
@@ -31,13 +31,13 @@ public:
     {
     }
 
-    int add(std::function<Component*(CompType, EntityId)> f) override
+    int add(std::function<Component*(CompType, EntityId)> f, EntityId eid) override
     {
         int out_index = -1;
         if (_unused.empty())
         {
             _array.push_back(T());
-            _array.back().init(f);
+            _array.back().init(f, eid);
             out_index = _array.size() - 1;
         } 
         else
@@ -45,18 +45,18 @@ public:
             out_index = _unused.front();
             _unused.pop_front();
             _array[out_index] = T();
-            _array[out_index].init(f);
+            _array[out_index].init(f, eid);
         }
         return out_index;
     }
 
-    int add(std::function<Component*(CompType, EntityId)> f, T proto)
+    int add(std::function<Component*(CompType, EntityId)> f, EntityId eid, T proto)
     {
         int out_index = -1;
         if (_unused.empty())
         {
             _array.push_back(proto);
-            _array.back().init(f);
+            _array.back().init(f, eid);
             out_index = _array.size() - 1;
         } 
         else
@@ -64,7 +64,7 @@ public:
             out_index = _unused.front();
             _unused.pop_front();
             _array[out_index] = proto;
-            _array[out_index].init(f);
+            _array[out_index].init(f, eid);
         }
         return out_index;
     }

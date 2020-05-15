@@ -20,7 +20,17 @@ int main()
     c->add_array<CompOctreeRoot>();
     c->add_component<CompTime>();
     c->add_component<CompOctreeRoot>();
-    c->add_entity({type_id<CompPhysics>, type_id<CompPosition>, type_id<CompBounds>, type_id<CompOctree>});
+    EntityId player = c->add_entity({type_id<CompPhysics>, 
+                   type_id<CompPosition>, 
+                   type_id<CompBounds>,  
+                   type_id<CompOctree>});
+    c->set_entity_pos(player, glm::vec3(0,10,0));
+
+    EntityId player2 = c->add_entity({type_id<CompPhysics>, 
+                   type_id<CompPosition>, 
+                   type_id<CompBounds>,  
+                   type_id<CompOctree>});
+    c->set_entity_pos(player2, glm::vec3(10,20,0));
 
     auto ps = std::make_shared<SysPhysics>();
     auto ts = std::make_shared<SysTime>();
@@ -28,11 +38,6 @@ int main()
     std::cout << type_id<CompPhysics> << "\n";
     std::cout << type_id<CompPosition> << "\n";
     std::cout << type_id<CompBounds> << "\n";
-    e.set_component_manager(c);
-    Entity proto_player;
-    proto_player._components[type_id<CompPosition>] = 0;
-    proto_player._components[type_id<CompBounds>] = 0;
-    proto_player._components[type_id<CompPhysics>] = 0;
     //e.add_entity(proto_player);
     //e.add_entity(proto_player);
     //e.add_entity(proto_player);

@@ -34,27 +34,27 @@ public:
         _arrays[type_id<T>] = new_array;
     }
 
-    CompIndex add_component(CompType in_type)
+    CompIndex add_component(CompType in_type, EntityId eid=-1)
     {
         assert(!_arrays.empty());
 
-        return _arrays[in_type]->add(get_component);
+        return _arrays[in_type]->add(get_component, eid);
     }
 
     template <class ComponentType>
-    CompIndex add_component()
+    CompIndex add_component(EntityId eid=-1)
     {
         assert(!_arrays.empty());
 
-        return _arrays[type_id<ComponentType>]->add(get_component);
+        return _arrays[type_id<ComponentType>]->add(get_component, eid);
     }
 
     template <class ComponentType>
-    CompIndex add_component(ComponentType proto)
+    CompIndex add_component(ComponentType proto, EntityId eid=-1)
     {
         assert(!_arrays.empty());
 
-        return _arrays[type_id<ComponentType>]->add(get_component, proto);
+        return _arrays[type_id<ComponentType>]->add(get_component, eid, proto);
     }
 
     EntityId add_entity(std::vector<CompType> in_types)
@@ -63,7 +63,7 @@ public:
         _entities[out_id] = Entity();
         for (auto it : in_types)
         {
-            _entities[out_id]._components[it] = add_component(it);
+            _entities[out_id]._components[it] = add_component(it, out_id);
         }
         _entity_counter += 1;
         return out_id; 
@@ -106,6 +106,19 @@ public:
         }
         CompIndex ind = _entities[id]._components[type];
         return _arrays[type]->get_component(ind);
+    }
+
+    template <class CompType>
+    CompType * entity_component(EntityId entity)
+    {
+        return dynamic_cast<CompType*>(
+            get_entity_component(type_id<CompType>, entity));
+    }
+
+    void set_entity_pos(EntityId entity, glm::vec3 in_pos)
+    {
+        CompPosition * pos_c = entity_component<CompPosition>(entity);    
+        pos_c->pos = in_pos;
     }
 
     void update()
