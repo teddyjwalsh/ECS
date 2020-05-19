@@ -71,7 +71,14 @@ public:
 
     Component * get_component(CompIndex index) override
     {
-        return static_cast<Component*>(&_array[index]);
+        if (_array.size() >= index)
+        {
+            return static_cast<Component*>(&_array[index]);
+        }
+        else
+        {
+            return nullptr;
+        }
     }
 
     std::vector<T> _array;

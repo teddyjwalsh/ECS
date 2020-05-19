@@ -12,9 +12,17 @@
 #include "physics_component.h"
 #include "type_id.h"
 
+// The Component Manager 
+// despite the name, manages Components
+// Entities and Systems. It manages
+// Creation and destruction of all these things
+// As well as does the main update call.
 class ComponentManager
 {
 public:
+    
+    // Engine user currently needs to create this.
+    // No construction config currently required
     ComponentManager():
         _entity_counter(0)
     {
@@ -26,6 +34,8 @@ public:
         // Temporary entity creation
     }
 
+    // Add array currently allocates a ComponentArray
+    // For the manager to use
     template <class T>
     void add_array()
     {
@@ -34,6 +44,10 @@ public:
         _arrays[type_id<T>] = new_array;
     }
 
+
+    // All add component functions add a component
+    // to the array of the given type. Arrays need to be added
+    // using add_array first
     CompIndex add_component(CompType in_type, EntityId eid=-1)
     {
         assert(!_arrays.empty());
@@ -57,6 +71,9 @@ public:
         return _arrays[type_id<ComponentType>]->add(get_component, eid, proto);
     }
 
+    // Adds an entity to the manager.
+    // Entities are currently, for the most part
+    // just numbers that have associations with components
     EntityId add_entity(std::vector<CompType> in_types)
     {
         EntityId out_id = _entity_counter;
@@ -69,6 +86,8 @@ public:
         return out_id; 
     }
 
+    // Adds a system to the manager. Once added, the system will update 
+    // at every manager update call
     void add_system(std::shared_ptr<System> in_system)
     {
         _systems.push_back(in_system);
@@ -82,6 +101,9 @@ public:
         return _arrays[in_type].get(); 
     }
 
+    // A system helper function. Gets passed to 
+    // systems so they can iterate every component o
+    // of a certain type.
     std::shared_ptr<ComponentArrayBase> get_array(CompType in_type)
     {
         assert(!_arrays.empty());

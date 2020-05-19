@@ -29,6 +29,8 @@ public:
 
     virtual void set_type() { _type = type_id<Component>; }
 
+    EntityId get_entity() { return _entity_id; }
+
 protected:
     std::function<Component*(CompType, EntityId)> get_component;
     CompType _type;

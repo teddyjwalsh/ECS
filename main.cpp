@@ -4,7 +4,9 @@
 #include "component_manager.h"
 #include "pickup_system.h"
 #include "octree_system.h"
+#include "terrain_system.h"
 #include "time_component.h"
+#include "client_component.h"
 #include "entity_manager.h"
 #include "player_entity.h"
 
@@ -23,6 +25,7 @@ int main()
     EntityId player = c->add_entity({type_id<CompPhysics>, 
                    type_id<CompPosition>, 
                    type_id<CompBounds>,  
+                   type_id<CompClient>,  
                    type_id<CompOctree>});
     c->set_entity_pos(player, glm::vec3(0,10,0));
 
