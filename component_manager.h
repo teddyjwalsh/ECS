@@ -5,12 +5,16 @@
 #include <memory>
 #include <unordered_map>
 
+#include "spdlog/spdlog.h"
+
 #include "system.h"
 #include "component_array.h"
 #include "time_component.h"
 #include "entity.h"
 #include "physics_component.h"
 #include "type_id.h"
+
+#define SPDLOG_ACTIVE_LEVEL DEBUG
 
 // The Component Manager 
 // despite the name, manages Components
@@ -30,7 +34,7 @@ public:
                                   this, std::placeholders::_1, std::placeholders::_2);
         get_array_func = std::bind(&ComponentManager::get_array_p,
                                   this, std::placeholders::_1);
-        
+
         // Temporary entity creation
     }
 
@@ -52,7 +56,7 @@ public:
     {
         assert(!_arrays.empty());
 
-        return _arrays[in_type]->add(get_component, eid);
+        return _arrays.at(in_type)->add(get_component, eid);
     }
 
     template <class ComponentType>
@@ -60,7 +64,7 @@ public:
     {
         assert(!_arrays.empty());
 
-        return _arrays[type_id<ComponentType>]->add(get_component, eid);
+        return _arrays.at(type_id<ComponentType>)->add(get_component, eid);
     }
 
     template <class ComponentType>
@@ -68,7 +72,16 @@ public:
     {
         assert(!_arrays.empty());
 
-        return _arrays[type_id<ComponentType>]->add(get_component, eid, proto);
+        return _arrays.at(type_id<ComponentType>)->add(get_component, eid, proto);
+    }
+
+    void delete_entity(EntityId entity)
+    {
+        for (auto& it : _entities[entity]._components)
+        {
+            EntityId new_ent = _arrays[it.first]->remove(it.second);
+            _entities[new_ent]._components[it.first] = it.second;
+        }
     }
 
     // Adds an entity to the manager.
@@ -83,6 +96,7 @@ public:
             _entities[out_id]._components[it] = add_component(it, out_id);
         }
         _entity_counter += 1;
+        SPDLOG_DEBUG("Added Entity ", out_id);            
         return out_id; 
     }
 
@@ -90,6 +104,7 @@ public:
     // at every manager update call
     void add_system(std::shared_ptr<System> in_system)
     {
+        SPDLOG_DEBUG("Adding system ", in_system->get_type_name());            
         _systems.push_back(in_system);
         _systems.back()->pre_init(get_array_func);
     }
@@ -148,7 +163,9 @@ public:
         auto ta = std::dynamic_pointer_cast<ComponentArray<CompTime>>(_arrays[type_id<CompTime>]);
         for (auto& sys : _systems)
         {
+            SPDLOG_DEBUG("Entering system ", sys->get_type_name());            
             sys->update(0.1);
+            SPDLOG_DEBUG("Exiting system ", sys->get_type_name());            
         }        
     }
 

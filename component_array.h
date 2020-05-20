@@ -17,7 +17,9 @@ public:
 
     //virtual int add() = 0;
     virtual int add(std::function<Component*(CompType, EntityId)> f, EntityId eid) = 0; 
+    virtual EntityId remove(CompIndex index) = 0;
     virtual Component * get_component(CompIndex index) = 0;
+    virtual bool empty() = 0;
 protected:
     CompType _type;
 };
@@ -69,6 +71,13 @@ public:
         return out_index;
     }
 
+    EntityId remove(CompIndex index) override
+    {
+        _array[index] = _array[_array.size() - 1];
+        _array.resize(_array.size() - 1);
+        return _array[index].get_entity();
+    }
+
     Component * get_component(CompIndex index) override
     {
         if (_array.size() >= index)
@@ -79,6 +88,11 @@ public:
         {
             return nullptr;
         }
+    }
+
+    bool empty() override
+    {
+        return _array.empty();
     }
 
     std::vector<T> _array;
