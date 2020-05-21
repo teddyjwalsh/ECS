@@ -14,7 +14,6 @@
 #include "physics_component.h"
 #include "type_id.h"
 
-#define SPDLOG_ACTIVE_LEVEL DEBUG
 
 // The Component Manager 
 // despite the name, manages Components
@@ -96,7 +95,7 @@ public:
             _entities[out_id]._components[it] = add_component(it, out_id);
         }
         _entity_counter += 1;
-        SPDLOG_DEBUG("Added Entity ", out_id);            
+        SPDLOG_INFO("Added Entity ", out_id);            
         return out_id; 
     }
 
@@ -104,7 +103,7 @@ public:
     // at every manager update call
     void add_system(std::shared_ptr<System> in_system)
     {
-        SPDLOG_DEBUG("Adding system ", in_system->get_type_name());            
+        SPDLOG_INFO("Adding system ", in_system->get_type_name());            
         _systems.push_back(in_system);
         _systems.back()->pre_init(get_array_func);
     }
@@ -163,9 +162,9 @@ public:
         auto ta = std::dynamic_pointer_cast<ComponentArray<CompTime>>(_arrays[type_id<CompTime>]);
         for (auto& sys : _systems)
         {
-            SPDLOG_DEBUG("Entering system ", sys->get_type_name());            
+            SPDLOG_TRACE("Entering system {}", "test");//sys->get_type_name());            
             sys->update(0.1);
-            SPDLOG_DEBUG("Exiting system ", sys->get_type_name());            
+            SPDLOG_TRACE("Exiting system {}", sys->get_type_name());            
         }        
     }
 

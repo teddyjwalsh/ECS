@@ -1,3 +1,7 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+
+#include "spdlog/spdlog.h"
+
 #include "physics_component.h"
 #include "physics_system.h"
 #include "time_system.h"
@@ -11,8 +15,10 @@
 #include "entity_manager.h"
 #include "player_entity.h"
 
+
 int main()
 {
+    spdlog::set_level(spdlog::level::trace);
     auto c = std::make_shared<ComponentManager>();
     auto e = EntityManager();
     c->add_array<CompPosition>();

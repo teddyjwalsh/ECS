@@ -32,9 +32,10 @@ public:
         return _type_name;
     }
 
+    std::string _type_name = "default";
+
 protected:
     CompType _type;
-    std::string _type_name = "default";
     std::function<ComponentArrayBase*(CompType)> get_array_base;
 };
 
