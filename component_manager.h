@@ -45,7 +45,7 @@ public:
 
         // Log init
         _console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        _console_sink->set_level(spdlog::level::trace);
+        _console_sink->set_level(spdlog::level::info);
         _console_sink->set_pattern("[manager] [%^%l%$] %v");
 
         _file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/manager.txt", true);
