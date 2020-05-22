@@ -9,6 +9,11 @@
 class SysInput : public System
 {
 public:
+    SysInput()
+    {
+        _type_name = "input";
+    }
+
     void update(double dt) override
     {
         auto& key_state = get_array<CompKeyState>()[0];

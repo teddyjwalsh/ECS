@@ -32,6 +32,7 @@ public:
     SysPickup()
     {
         _type = type_id<CompPickupper>;
+        _type_name = "pickup";
     }
 
     void update(double dt) override

@@ -17,7 +17,9 @@ class SysTerrain : public System
 public:
     SysTerrain():
         island(1)
-    {}
+    {
+        _type_name = "terrain";
+    }
 
     void update(double dt) override 
     {
@@ -39,7 +41,7 @@ public:
 
         for (auto& p : players)
         {
-            SPDLOG_DEBUG("Setting player terrain {}");
+            SLOG_DEBUG("Setting player terrain {}");
             auto player_terrain = p.sibling<CompPlayerTerrain>();
             if (player_terrain != nullptr)
             {
@@ -65,8 +67,8 @@ public:
         glm::ivec3 block_size = end_block - start_block;
         std::vector<BlockType> blocks = island.get_chunk(start_block.x, start_block.y, start_block.z,
                                                          block_size.x, block_size.y, block_size.z); 
-        SPDLOG_DEBUG("Start block {} {} {}", start_block.x, start_block.y, start_block.z);
-        SPDLOG_DEBUG("End block {} {} {}", end_block.x, end_block.y, end_block.z);
+        SLOG_DEBUG("Start block {} {} {}", start_block.x, start_block.y, start_block.z);
+        SLOG_DEBUG("End block {} {} {}", end_block.x, end_block.y, end_block.z);
         
         
         for (int i = start_block.z; i < end_block.z; ++i)
@@ -80,7 +82,7 @@ public:
                         block_size.x*block_size.y*(i-start_block.z)];
                     if (block_type > 0)
                     {
-                        SPDLOG_DEBUG("Player terrain block : {} {} {}", i, j, k);
+                        SLOG_DEBUG("Player terrain block : {} {} {}", i, j, k);
                         player_terrain->blocks[glm::vec3(i,j,k)] = block_type;
                     }
                 }

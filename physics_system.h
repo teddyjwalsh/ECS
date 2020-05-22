@@ -30,6 +30,7 @@ public:
     SysPhysics()
     {
         _type = type_id<CompPhysics>;
+        _type_name = "physics";
     }
 
     void update(double dt) override
@@ -54,15 +55,14 @@ public:
             // and should apply to all players until client side prediction
             // is implemented
             (*it).vel.y = (*it).vel.y - 9.8*dt;
-            std::cout << "Phys pos pre" << glm::to_string(pos_comp->pos) << "\n";
             if (terrain_comp != nullptr)// && my_player == terrain_comp->get_entity())
             {
-                SPDLOG_DEBUG("Trying to move");
+                SLOG_DEBUG("Trying to move");
                 std::vector<glm::vec3> kv;
                 kv.reserve(terrain_comp->blocks.size());
                 for (auto k : terrain_comp->blocks)
                 {
-                    SPDLOG_DEBUG("\tBlock {} {} {}", k.first.x, k.first.y, k.first.z);
+                    SLOG_DEBUG("\tBlock {} {} {}", k.first.x, k.first.y, k.first.z);
                     kv.push_back(k.first + glm::vec3(0.5));
                 }
                 move(dt, pos_comp->pos, (*it).vel, bounds_comp->bounds, kv); 
@@ -70,8 +70,6 @@ public:
 
             // Apply kinematics and gravity
             // pos_comp->pos.y = pos_comp->pos.y + (*it).vel.y*dt;
-            
-            std::cout << "Phys pos " << glm::to_string(pos_comp->pos) << "\n";
         }
     }
 
@@ -128,9 +126,9 @@ public:
                            (bounds.z / 2.0 + block_depth / 2.0);
             if (y_pen > 0 && x_pen > 0 && z_pen > 0)
             {
-                SPDLOG_DEBUG("Corrected Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
+                SLOG_DEBUG("Corrected Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
                 pos.y -= y_pen*sgn(vel.y)*1.01;
-                SPDLOG_DEBUG("\t after: {}", pos.y);
+                SLOG_DEBUG("\t after: {}", pos.y);
                 vel.y = 0;
             }
         }
