@@ -157,6 +157,7 @@ public:
         pos_c->pos = in_pos;
     }
 
+    // Update all systems
     void update()
     {
         auto ta = std::dynamic_pointer_cast<ComponentArray<CompTime>>(_arrays[type_id<CompTime>]);

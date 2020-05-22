@@ -8,10 +8,19 @@
 
 #include "type_id.h"
 
+// The component is a set of data typically
+// owned by an entity. The types of components
+// an entity has dictates what operations 
+// are performed on it.
+// There are also singleton components
+// Not owned by any entity but are states
+// and data used by certain systems
 class Component
 {
 public:
 
+    // Used by systems to get other components
+    // owned by the entity that owns this component
     template <class SibType>
     SibType * sibling()
     {
@@ -20,6 +29,10 @@ public:
         return sib;
     } 
 
+    // Component initialization. 
+    // The component manager hands each component
+    // a helper function enabling it to find other
+    // components
     void init(std::function<Component*(CompType, EntityId)>& f, EntityId eid)
     {
         get_component = f;

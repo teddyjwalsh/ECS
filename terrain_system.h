@@ -39,11 +39,15 @@ public:
 
         for (auto& p : players)
         {
+            SPDLOG_DEBUG("Setting player terrain {}");
             auto player_terrain = p.sibling<CompPlayerTerrain>();
-            auto player_bounds = p.sibling<CompBounds>();
-            auto player_pos = p.sibling<CompPosition>();
-            player_terrain->blocks.clear();
-            set_player_terrain(player_terrain, player_pos, player_bounds);
+            if (player_terrain != nullptr)
+            {
+                auto player_bounds = p.sibling<CompBounds>();
+                auto player_pos = p.sibling<CompPosition>();
+                player_terrain->blocks.clear();
+                set_player_terrain(player_terrain, player_pos, player_bounds);
+            }
         }
     }
 
@@ -56,24 +60,27 @@ public:
                             CompPosition * player_pos,
                             CompBounds * player_bounds)
     {
-        glm::ivec3 start_block = glm::floor(player_pos->pos - player_bounds->bounds);
-        glm::ivec3 end_block = glm::floor(player_pos->pos + player_bounds->bounds);
+        glm::ivec3 start_block = glm::floor(player_pos->pos - player_bounds->bounds/2.0);
+        glm::ivec3 end_block = glm::floor(player_pos->pos + player_bounds->bounds/2.0) + glm::vec3(1,1,1);
         glm::ivec3 block_size = end_block - start_block;
         std::vector<BlockType> blocks = island.get_chunk(start_block.x, start_block.y, start_block.z,
                                                          block_size.x, block_size.y, block_size.z); 
+        SPDLOG_DEBUG("Start block {} {} {}", start_block.x, start_block.y, start_block.z);
+        SPDLOG_DEBUG("End block {} {} {}", end_block.x, end_block.y, end_block.z);
         
         
-        for (int i = start_block.x; i < end_block.x; ++i)
+        for (int i = start_block.z; i < end_block.z; ++i)
         {
             for (int j = start_block.y; j < end_block.y; ++j)
             {
-                for (int k = start_block.z; k < end_block.z; ++k)
+                for (int k = start_block.x; k < end_block.x; ++k)
                 {
-                    BlockType block_type = blocks[(i-start_block.x) + 
+                    BlockType block_type = blocks[(k-start_block.x) + 
                         block_size.x*(j-start_block.y) + 
-                        block_size.x*block_size.y*(k-start_block.z)];
+                        block_size.x*block_size.y*(i-start_block.z)];
                     if (block_type > 0)
                     {
+                        SPDLOG_DEBUG("Player terrain block : {} {} {}", i, j, k);
                         player_terrain->blocks[glm::vec3(i,j,k)] = block_type;
                     }
                 }

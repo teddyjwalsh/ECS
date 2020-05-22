@@ -1,6 +1,7 @@
 #ifndef PHYSICS_SYSTEM_H_
 #define PHYSICS_SYSTEM_H_
 
+#include <math.h>
 #include <memory>
 #include <iostream>
 #include <glm/ext.hpp>
@@ -13,6 +14,10 @@
 #include "time_component.h"
 #include "system.h"
 
+
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
 
 // The physics system is intended to simulate physics
 // and collision between all entities with a physics
@@ -48,16 +53,86 @@ public:
             // THIS SHOULDN'T BE! key application should be on server
             // and should apply to all players until client side prediction
             // is implemented
-            if (terrain_comp != nullptr && my_player == terrain_comp->get_entity())
+            (*it).vel.y = (*it).vel.y - 9.8*dt;
+            std::cout << "Phys pos pre" << glm::to_string(pos_comp->pos) << "\n";
+            if (terrain_comp != nullptr)// && my_player == terrain_comp->get_entity())
             {
-                        
+                SPDLOG_DEBUG("Trying to move");
+                std::vector<glm::vec3> kv;
+                kv.reserve(terrain_comp->blocks.size());
+                for (auto k : terrain_comp->blocks)
+                {
+                    SPDLOG_DEBUG("\tBlock {} {} {}", k.first.x, k.first.y, k.first.z);
+                    kv.push_back(k.first + glm::vec3(0.5));
+                }
+                move(dt, pos_comp->pos, (*it).vel, bounds_comp->bounds, kv); 
             }
 
             // Apply kinematics and gravity
-            pos_comp->pos.y = pos_comp->pos.y + (*it).vel.y*dt;
-            (*it).vel.y = (*it).vel.y + 9.8*dt;
+            // pos_comp->pos.y = pos_comp->pos.y + (*it).vel.y*dt;
             
             std::cout << "Phys pos " << glm::to_string(pos_comp->pos) << "\n";
+        }
+    }
+
+    void move(
+              double time_delta,
+              glm::vec3& pos,
+              glm::vec3& vel,
+              glm::vec3& bounds,
+              std::vector<glm::vec3> in_blocks)
+    {
+        double block_height = 1.0;
+        double block_width = 1.0;
+        double block_depth = 1.0;
+        pos.x += vel.x*time_delta;
+        for (auto in_block : in_blocks)
+        {
+            double y_pen = -std::abs(pos.y - in_block.y) +
+                           (bounds.y / 2.0 + block_height / 2.0);
+            double x_pen = -std::abs(pos.x - in_block.x) +
+                           (bounds.x / 2.0 + block_width / 2.0);
+            double z_pen = -std::abs(pos.z - in_block.z) +
+                           (bounds.z / 2.0 + block_depth / 2.0);
+            if (y_pen > 0 && x_pen > 0 && z_pen > 0)
+            {
+                pos.x -= x_pen*sgn(vel.x)*1.01;
+                vel.x = 0;
+            }
+        }
+
+        pos.z += vel.z*time_delta;
+        for (auto in_block : in_blocks)
+        {
+            double y_pen = -std::abs(pos.y - in_block.y) +
+                           (bounds.y / 2.0 + block_height / 2.0);
+            double x_pen = -std::abs(pos.x - in_block.x) +
+                           (bounds.x / 2.0 + block_width / 2.0);
+            double z_pen = -std::abs(pos.z - in_block.z) +
+                           (bounds.z / 2.0 + block_depth / 2.0);
+            if (y_pen > 0 && x_pen > 0 && z_pen > 0)
+            {
+                pos.z -= z_pen*sgn(vel.z)*1.01;
+                vel.z = 0;
+            }
+        }
+
+        pos.y += vel.y*time_delta;
+        for (auto in_block : in_blocks)
+        {
+            double y_pen = -std::abs(pos.y - in_block.y) +
+                           (bounds.y / 2.0 + block_height / 2.0);
+            double x_pen = -std::abs(pos.x - in_block.x) +
+                           (bounds.x / 2.0 + block_width / 2.0);
+            double z_pen = -std::abs(pos.z - in_block.z) +
+                           (bounds.z / 2.0 + block_depth / 2.0);
+            if (y_pen > 0 && x_pen > 0 && z_pen > 0)
+            {
+                SPDLOG_DEBUG("Corrected Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
+                pos.y -= y_pen*sgn(vel.y)*1.01;
+                SPDLOG_DEBUG("\t after: {}", pos.y);
+                vel.y = 0;
+            }
         }
     }
 };
