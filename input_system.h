@@ -6,6 +6,8 @@
 #include "keystate_component.h"
 #include "graphics_component.h"
 
+#define HOLD_TIME 0.3
+
 class SysInput : public System
 {
 public:
@@ -22,7 +24,32 @@ public:
         {
             auto key = k.first;
 #ifdef USE_GLFW
-            k.second = glfwGetKey(graphics_comp.window, key);
+            bool new_key_state = glfwGetKey(graphics_comp.window, key);
+            if (k.second == new_key_state)
+            {
+                key_state.pressed_time[key] += dt;
+                key_state.push[key] = false;
+                key_state.release[key] = false;
+                if (key_state.pressed_time[key] >= HOLD_TIME)
+                {
+                    key_state.held[key] = true;
+                }
+            }
+            else
+            {
+                key_state.pressed_time[key] = 0;
+                key_state.held[key] = false;
+                if (new_key_state == GLFW_PRESS)
+                {
+                    key_state.push[key] = true;
+                }
+                else
+                {
+                    key_state.release[key] = true;
+                }
+            }
+            k.second = new_key_state;
+            SLOG_DEBUG("{} {}", k.first, k.second);
 #endif
         }
     }

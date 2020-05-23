@@ -53,7 +53,7 @@ public:
         _sys_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + _type_name + ".txt", true);
         _sys_file_sink->set_level(spdlog::level::trace);
         _sys_console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        _sys_console_sink->set_level(spdlog::level::warn);
+        _sys_console_sink->set_level(spdlog::level::debug);
         _sys_console_sink->set_pattern(std::string("[") + _type_name + "] [%^%l%$] %v");
         in_sinks.push_back(_sys_file_sink); 
         in_sinks.push_back(_sys_console_sink); 

@@ -29,6 +29,7 @@ public:
         }
     }
     std::unordered_map<int, bool> pressed;
+    std::unordered_map<int, double> pressed_time;
     std::unordered_map<int, bool> push;
     std::unordered_map<int, bool> release;
     std::unordered_map<int, bool> held;
