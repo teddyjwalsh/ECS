@@ -1,7 +1,7 @@
 #ifndef INPUT_SYSTEM_H_
 #define INPUT_SYSTEM_H_
 
-//#include "GLFW/glfw3.h"
+#include "glfw_defines.h"
 #include "system.h"
 #include "keystate_component.h"
 #include "graphics_component.h"
@@ -21,7 +21,9 @@ public:
         for (auto& k : key_state.pressed)
         {
             auto key = k.first;
-            //k.second[key] = glfwGetKey(graphics_comp.window, key);
+#ifdef USE_GLFW
+            k.second = glfwGetKey(graphics_comp.window, key);
+#endif
         }
     }
 };
