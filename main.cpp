@@ -38,7 +38,6 @@ int main()
     c->add_component<CompOctreeRoot>();
     c->add_component<CompLoadedChunks>();
     c->add_component<CompChunkDataQueue>();
-    c->add_component<CompKeyState>();
     c->add_component<CompGraphics>();
     EntityId player = c->add_entity({
                    uint32_t(type_id<CompPhysics>), 
@@ -49,6 +48,7 @@ int main()
                    uint32_t(type_id<CompCamera>),
                    uint32_t(type_id<CompPickupper>),
                    uint32_t(type_id<CompPlayerTerrain>),
+                   uint32_t(type_id<CompKeyState>),
                    uint32_t(type_id<CompOctree>)});
     c->set_entity_pos(player, glm::vec3(0,10,0));
 

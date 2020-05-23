@@ -5,8 +5,10 @@
 #include "GLFW/glfw3.h"
 #else
 
-typedef void* GLFWwindow
+typedef int GLFWwindow;
 
+#define GLFW_PRESS 1
+#define GLFW_RELEASE 0
 #define GLFW_KEY_UNKNOWN   -1
 #define GLFW_KEY_SPACE   32
 #define GLFW_KEY_APOSTROPHE   39 /* ' */

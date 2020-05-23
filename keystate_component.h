@@ -17,8 +17,8 @@ public:
                             GLFW_KEY_S,
                             GLFW_KEY_D,
                             GLFW_KEY_SPACE,
+                            0,
                             1,
-                            2,
                         };
         for (auto it : keys_to_use)
         {

@@ -23,8 +23,17 @@ public:
         for (auto& k : key_state.pressed)
         {
             auto key = k.first;
+            bool new_key_state = false;
 #ifdef USE_GLFW
-            bool new_key_state = glfwGetKey(graphics_comp.window, key);
+            if (key == GLFW_MOUSE_BUTTON_1 || key == GLFW_MOUSE_BUTTON_2)
+            {
+                new_key_state = glfwGetMouseButton(graphics_comp.window, key);
+            }
+            else
+            {
+                new_key_state = glfwGetKey(graphics_comp.window, key);
+            }
+#endif
             if (k.second == new_key_state)
             {
                 key_state.pressed_time[key] += dt;
@@ -50,7 +59,6 @@ public:
             }
             k.second = new_key_state;
             SLOG_DEBUG("{} {}", k.first, k.second);
-#endif
         }
     }
 };
