@@ -60,8 +60,9 @@ float * Simplex::get_points(int in_x, int in_y, int in_z, int division)
                                           256,
                                           scale);
     }
-    return noiseSet;
+    
 #endif
+    return noiseSet;
 }
 
 
@@ -79,8 +80,9 @@ float * Simplex::get_points_2d(int in_x, int in_y, int division)
                                       division,
                                       1,
                                       scale);
-    return noiseSet;
+    
 #endif
+    return noiseSet;
 }
 
 void Simplex::set_scales(int in_x, int in_y, int in_z)

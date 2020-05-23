@@ -40,21 +40,22 @@ int main()
     c->add_component<CompChunkDataQueue>();
     c->add_component<CompKeyState>();
     c->add_component<CompGraphics>();
-    EntityId player = c->add_entity({type_id<CompPhysics>, 
-                   type_id<CompPosition>, 
-                   type_id<CompBounds>,  
-                   type_id<CompClient>,  
-                   type_id<CompPlayer>,  
-                   type_id<CompCamera>,  
-                   type_id<CompPickupper>,  
-                   type_id<CompPlayerTerrain>,  
-                   type_id<CompOctree>});
+    EntityId player = c->add_entity({
+                   uint32_t(type_id<CompPhysics>), 
+                   uint32_t(type_id<CompPosition>),
+                   uint32_t(type_id<CompBounds>),
+                   uint32_t(type_id<CompClient>),
+                   uint32_t(type_id<CompPlayer>),
+                   uint32_t(type_id<CompCamera>),
+                   uint32_t(type_id<CompPickupper>),
+                   uint32_t(type_id<CompPlayerTerrain>),
+                   uint32_t(type_id<CompOctree>)});
     c->set_entity_pos(player, glm::vec3(0,10,0));
 
-    EntityId player2 = c->add_entity({type_id<CompPhysics>, 
-                   type_id<CompPosition>, 
-                   type_id<CompBounds>,  
-                   type_id<CompOctree>});
+    EntityId player2 = c->add_entity({ uint32_t(type_id<CompPhysics>),
+                   uint32_t(type_id<CompPosition>),
+                   uint32_t(type_id<CompBounds>),
+                   uint32_t(type_id<CompOctree>)});
     c->set_entity_pos(player2, glm::vec3(10,20,0));
 
     auto ps = std::make_shared<SysPhysics>();
