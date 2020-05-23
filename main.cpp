@@ -65,6 +65,7 @@ int main()
     auto os = std::make_shared<SysOctree>();
     auto is = std::make_shared<SysInput>();
     auto pus = std::make_shared<SysPickup>();
+    auto rts = std::make_shared<SysRaytrace>();
     std::cout << type_id<CompPhysics> << "\n";
     std::cout << type_id<CompPosition> << "\n";
     std::cout << type_id<CompBounds> << "\n";
@@ -77,6 +78,8 @@ int main()
     c->add_system(os);
     c->add_system(is);
     c->add_system(pus);
+    c->add_system(rts);
+    c->init_update();
     for (int i = 0; i < 200; ++i)
     {
         c->update();

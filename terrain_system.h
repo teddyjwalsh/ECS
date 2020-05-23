@@ -31,7 +31,7 @@ public:
         auto pos1 = player1.sibling<CompPosition>(); 
         auto& loaded_chunks = get_array<CompLoadedChunks>()[0]; 
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0]; 
-        ChunkCoord highest_priority_chunk = get_chunk_to_load(pos1->pos, cam1->view);
+        ChunkCoord highest_priority_chunk = get_chunk_to_load(pos1->pos, cam1->camera.get_projection());
         ChunkData new_chunk = island.get_chunk(highest_priority_chunk.x, 
                                                highest_priority_chunk.y,
                                                highest_priority_chunk.z,

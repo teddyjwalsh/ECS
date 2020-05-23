@@ -341,7 +341,11 @@ public:
 		_out_tex->set_data(0,0,1024,1024,_out_vec1);
 	}
 
+#ifndef _SHARED_CAM
+	void set_camera(graphics::Camera* in_cam)
+#else
 	void set_camera(std::shared_ptr<graphics::Camera> in_cam)
+#endif
 	{
 		_camera = in_cam;
 		_cam_pos = in_cam->get_pos();

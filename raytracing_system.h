@@ -5,6 +5,7 @@
 
 #include "graphics/raytracer.h"
 #include "terrain_system.h"
+#include "graphics_component.h"
 
 // The physics system is intended to simulate physics
 // and collision between all entities with a physics
@@ -16,6 +17,7 @@ class SysRaytrace : public System
 public:
     SysRaytrace()
     {
+        graphics::init(x_res, y_res);
         _type_name = "Raytracer";
         _rt = std::make_shared<graphics::Raytracer>
             (x_chunk_size, y_chunk_size, z_chunk_size, x_res, y_res,
@@ -23,13 +25,22 @@ public:
                 low_res_div);
     }
 
+    void init_update() override
+    {
+        auto& cam = get_array<CompCamera>()[0];
+        auto& cg = get_array<CompGraphics>()[0];
+        cg.window = graphics::window;
+        _rt->set_camera(&cam.camera);
+    }
+
     void update(double dt) override
     {
         auto& cam = get_array<CompCamera>()[0];
-        
+        auto pos = cam.sibling<CompPosition>();
+        _rt->set_ref(pos->pos);
         _rt->draw(x_res / low_res_div, y_res / low_res_div, 5, false, false);
         _rt->draw(x_res, y_res, 1, true, true);
-        _rt->set_camera(cam);
+        _rt->set_camera(&cam.camera);
     }
 
 private:

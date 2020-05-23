@@ -24,6 +24,7 @@ public:
     {    
     }
 
+    virtual void init_update() {};
     virtual void update(double dt) = 0;
 
     void _pre_init(std::function<ComponentArrayBase*(CompType)> f)

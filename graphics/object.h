@@ -73,7 +73,7 @@ class Object : public Entity
 		return _is_instanced;
 	}
 
-	void bind()
+	void bind() const
 	{
 		glBindVertexArray(_vertex_array);
 	}

@@ -58,6 +58,19 @@ void set_camera_matrices(std::shared_ptr<Camera> in_camera)
     */
 }
 
+void set_camera_matrices(const Camera * in_camera)
+{
+    active_program_ptr->set_uniform_mat4(VIEW_MAT_NAME, in_camera->get_view());
+    active_program_ptr->set_uniform_mat4(PROJECTION_MAT_NAME, in_camera->get_projection());
+    /*
+    GLuint view_mat_loc = glGetUniformLocation(active_program, VIEW_MAT_NAME.c_str());
+    GLuint projection_mat_loc = glGetUniformLocation(active_program, PROJECTION_MAT_NAME.c_str());
+    glm::mat4 view_mat = in_camera->get_view();
+    glm::mat4 projection_mat = in_camera->get_projection();
+    glUniformMatrix4fv(view_mat_loc, 1, GL_FALSE, glm::value_ptr(view_mat));
+    glUniformMatrix4fv(projection_mat_loc, 1, GL_FALSE, glm::value_ptr(projection_mat));
+    */
+}
 
 std::shared_ptr<Camera> get_active_camera()
 {
@@ -143,6 +156,32 @@ void draw_object(std::shared_ptr<Object> in_object,
     {
         glDrawArrays(GL_TRIANGLES, 
             0, 
+            in_object->vertex_count());
+    }
+}
+
+void draw_object(std::shared_ptr<Object> in_object,
+    const Camera * in_camera)
+{
+    set_program(in_object->get_program());
+    set_camera_matrices(in_camera);
+    in_object->bind();
+    in_object->get_program()->set_uniform_mat4("model_mat", in_object->get_transform());
+    //GLuint model_mat_loc = glGetUniformLocation(
+    //    in_object->get_program()->get_program_name(), "model_mat");
+    //glm::mat4 model_mat = in_object->get_transform();
+    //glUniformMatrix4fv(model_mat_loc, 1, GL_FALSE, glm::value_ptr(model_mat));
+    if (in_object->is_instanced())
+    {
+        glDrawArraysInstanced(GL_TRIANGLES,
+            0,
+            in_object->vertex_count(),
+            in_object->get_instance_count());
+    }
+    else
+    {
+        glDrawArrays(GL_TRIANGLES,
+            0,
             in_object->vertex_count());
     }
 }

@@ -21,13 +21,13 @@ public:
 		_up_vector = glm::cross(_right_vector, _forward_vector);
 	}
 
-	glm::mat4 get_view()
+	glm::mat4 get_view() const
 	{
 		glm::mat4 view_mat = glm::lookAt(get_pos(), get_pos() + _forward_vector, _up_vector);
 		return view_mat;
 	}
 
-	glm::mat4 get_projection()
+	glm::mat4 get_projection() const
 	{
 		glm::mat4 projection_matrix = glm::perspective(
 			glm::radians(90.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)

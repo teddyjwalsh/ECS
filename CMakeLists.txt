@@ -5,6 +5,7 @@ set(generation_src generation/simplex.cpp
                    generation/generator.cpp)
 
 file(GLOB ecs_src "./*.h" "./*.cpp")
+set(glad_src "./glad/src/glad.c")
 set(fnsd_src)
 
 if( "\"${CMAKE_CXX_COMPILER_ID}\"" MATCHES MSVC )
@@ -18,7 +19,7 @@ endif()
 
 link_directories("./lib64")
 find_library(glfw glfw3 "./lib64")
-add_executable(ecs ${ecs_src} ${generation_src} ${fnsd_src})
+add_executable(ecs ${ecs_src} ${generation_src} ${fnsd_src} ${glad_src})
 
 
 target_include_directories(ecs PUBLIC ./)

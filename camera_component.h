@@ -2,11 +2,12 @@
 #define CAMERA_COMPONENT_H_
 
 #include "component.h"
+#include "graphics/camera.h"
 
 class CompCamera : public Component
 {
 public:
-    glm::mat4 view;
+    graphics::Camera camera;
 };
 
 #endif  // CAMERA_COMPONENT_H_

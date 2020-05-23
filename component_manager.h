@@ -176,6 +176,16 @@ public:
         pos_c->pos = in_pos;
     }
 
+    void init_update()
+    {
+        for (auto& sys : _systems)
+        {
+            SLOG_TRACE("Entering system {}", "test");//sys->get_type_name());            
+            sys->init_update();
+            SLOG_TRACE("Exiting system {}", sys->get_type_name());
+        }
+    }
+
     // Update all systems
     void update()
     {
