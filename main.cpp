@@ -9,6 +9,7 @@
 #include "pickup_system.h"
 #include "octree_system.h"
 #include "terrain_system.h"
+#include "raytracing_system.h"
 #include "input_system.h"
 #include "time_component.h"
 #include "client_component.h"

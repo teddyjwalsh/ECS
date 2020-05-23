@@ -9,8 +9,10 @@
 
 #define CHUNK_SIZE_X 128
 #define CHUNK_SIZE_Y 128
-#define CHUNK_SIZE_Z 16 
-
+#define CHUNK_SIZE_Z 16
+#define MAP_SIZE_X 10
+#define MAP_SIZE_Y 20
+#define MAP_SIZE_Z 10
 
 class SysTerrain : public System
 {

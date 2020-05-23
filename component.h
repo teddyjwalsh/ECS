@@ -27,7 +27,7 @@ public:
         SibType * sib = static_cast<SibType*>(
             get_component(type_id<SibType>, _entity_id));
         return sib;
-    } 
+    }
 
     // Component initialization. 
     // The component manager hands each component

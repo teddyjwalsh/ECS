@@ -22,6 +22,7 @@ add_executable(ecs ${ecs_src} ${generation_src} ${fnsd_src})
 
 
 target_include_directories(ecs PUBLIC ./)
+target_include_directories(ecs PUBLIC ./glad/include)
 target_compile_options(ecs PRIVATE "-ggdb")
 target_compile_options(ecs PRIVATE "-DGLM_ENABLE_EXPERIMENTAL")
 set_property(TARGET ecs PROPERTY CXX_STANDARD 17)
