@@ -33,6 +33,8 @@ public:
     std::unordered_map<int, bool> push;
     std::unordered_map<int, bool> release;
     std::unordered_map<int, bool> held;
+    double mouse_pos_x;
+    double mouse_pos_y;
 };
 
 #endif  // KEYSTATE_COMPONENT_H_

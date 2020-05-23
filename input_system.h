@@ -20,6 +20,12 @@ public:
     {
         auto& key_state = get_array<CompKeyState>()[0];
         auto& graphics_comp = get_array<CompGraphics>()[0];
+#ifdef USE_GLFW
+        glfwGetCursorPos(graphics_comp.window, &key_state.mouse_pos_x, &key_state.mouse_pos_y);
+        int width, height;
+        graphics_comp.get_window_size(width, height);
+        set_cursor_pos(width / 2, height / 2, graphics_comp.window);
+#endif  // USE_GLFW
         for (auto& k : key_state.pressed)
         {
             auto key = k.first;
@@ -60,6 +66,27 @@ public:
             k.second = new_key_state;
             SLOG_DEBUG("{} {}", k.first, k.second);
         }
+    }
+
+    void set_cursor_enabled(bool cursor_enabled, GLFWwindow * window)
+    {
+#ifdef USE_GLFW
+        if (cursor_enabled)
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+        else
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+#endif  // USE_GLFW
+    }
+
+    void set_cursor_pos(int in_x, int in_y, GLFWwindow * window)
+    {
+#ifdef USE_GLFW
+        glfwSetCursorPos(window, in_x, in_y);
+#endif  //USE_GLFW
     }
 };
 
