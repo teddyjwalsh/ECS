@@ -7,7 +7,7 @@ namespace tmc
 
 Simplex::Simplex(int in_seed, float in_scale)
 {
-#ifdef _FNSD
+#ifdef FNSD
     myNoise = FastNoiseSIMD::NewFastNoiseSIMD(in_seed);
 #endif
     noiseSet = nullptr;
@@ -34,7 +34,7 @@ float Simplex::get_point_2d(int in_x, int in_y)
 
 float * Simplex::get_points(int in_x, int in_y, int in_z, int division)
 {
-#ifdef _FNSD
+#ifdef FNSD
     if (noiseSet != nullptr)
     {
         FastNoiseSIMD::FreeNoiseSet(noiseSet);
@@ -68,7 +68,7 @@ float * Simplex::get_points(int in_x, int in_y, int in_z, int division)
 
 float * Simplex::get_points_2d(int in_x, int in_y, int division)
 {
-#ifdef _FNSD
+#ifdef FNSD
     if (noiseSet != nullptr)
     {
         FastNoiseSIMD::FreeNoiseSet(noiseSet);
@@ -87,14 +87,14 @@ float * Simplex::get_points_2d(int in_x, int in_y, int division)
 
 void Simplex::set_scales(int in_x, int in_y, int in_z)
 {
-#ifdef _FNSD
+#ifdef FNSD
     myNoise->SetAxisScales(in_x, in_y, in_z);
 #endif
 }
 
 void Simplex::free()
 {
-#ifdef _FNSD
+#ifdef FNSD
     FastNoiseSIMD::FreeNoiseSet(noiseSet);
     noiseSet = nullptr;
 #endif

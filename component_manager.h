@@ -183,7 +183,7 @@ public:
         for (auto& sys : _systems)
         {
             SLOG_TRACE("Entering system {}", "test");//sys->get_type_name());            
-            sys->update(0.1);
+            sys->update(0.016);
             SLOG_TRACE("Exiting system {}", sys->get_type_name());            
         }        
     }
