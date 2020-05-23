@@ -11,5 +11,5 @@ target_include_directories(ecs PUBLIC ./)
 target_compile_options(ecs PRIVATE "-ggdb")
 target_compile_options(ecs PRIVATE "-DGLM_ENABLE_EXPERIMENTAL")
 target_compile_options(ecs PRIVATE "-Wno-psabi")
-target_compile_options(ecs PRIVATE "-std=c++2a")
+target_compile_options(ecs PRIVATE "-std=c++17")
 

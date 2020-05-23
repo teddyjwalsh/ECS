@@ -12,15 +12,12 @@
 #include "input_system.h"
 #include "time_component.h"
 #include "client_component.h"
-#include "entity_manager.h"
-#include "player_entity.h"
 
 
 int main()
 {
     spdlog::set_level(spdlog::level::trace);
     auto c = std::make_shared<ComponentManager>();
-    auto e = EntityManager();
     c->add_array<CompPosition>();
     c->add_array<CompBounds>();
     c->add_array<CompPhysics>();

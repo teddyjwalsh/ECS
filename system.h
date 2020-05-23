@@ -6,7 +6,6 @@
 
 #include "spdlog/spdlog.h"
 
-#include "global_logs.h"
 #include "component.h"
 #include "component_array.h"
 
