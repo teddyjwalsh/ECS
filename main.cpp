@@ -51,7 +51,7 @@ int main()
                    uint32_t(type_id<CompPlayerTerrain>),
                    uint32_t(type_id<CompKeyState>),
                    uint32_t(type_id<CompOctree>)});
-    c->set_entity_pos(player, glm::vec3(0,10,0));
+    c->set_entity_pos(player, glm::vec3(50,30,50));
 
     EntityId player2 = c->add_entity({ uint32_t(type_id<CompPhysics>),
                    uint32_t(type_id<CompPosition>),
@@ -80,7 +80,7 @@ int main()
     c->add_system(pus);
     c->add_system(rts);
     c->init_update();
-    for (int i = 0; i < 200; ++i)
+    for (int i = 0; i < 1000; ++i)
     {
         c->update();
     }

@@ -41,6 +41,11 @@ public:
         _rt->draw(x_res / low_res_div, y_res / low_res_div, 5, false, false);
         _rt->draw(x_res, y_res, 1, true, true);
         _rt->set_camera(&cam.camera);
+
+        auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
+        auto new_chunk = chunk_data_queue.chunks.front();
+        chunk_data_queue.chunks.pop_front();
+        _rt->add_chunk(new_chunk.coord.x, new_chunk.coord.y, new_chunk.coord.z, new_chunk.data);
     }
 
 private:

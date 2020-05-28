@@ -23,23 +23,60 @@ public:
         _type_name = "terrain";
     }
 
+    void init_update() override
+    {
+        auto& loaded_chunks = get_array<CompLoadedChunks>()[0];
+        auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
+        int radius = 10;
+        int radius2 = 10;
+        
+        for (int i = 0; i < radius; ++i)
+        {
+            for (int k = 0; k < 20; ++k)
+            {
+                for (int j = 0; j < radius2; ++j)
+                {
+                    {
+                        ChunkData new_chunk;
+                        chunk_data_queue.chunks.push_back(new_chunk);
+                        chunk_data_queue.chunks.back().data = island.get_chunk(i * CHUNK_SIZE_X, k * CHUNK_SIZE_Y, j * CHUNK_SIZE_Z, CHUNK_SIZE_X, CHUNK_SIZE_Y, CHUNK_SIZE_Z);
+                        chunk_data_queue.chunks.back().coord = ChunkCoord(i, k, j);
+                        if (chunk_data_queue.chunks.back().data[0] == -1)
+                        {
+                            chunk_data_queue.chunks.pop_back();
+                        }
+                        else
+                        {
+                            loaded_chunks.chunks.insert(ChunkCoord(i, k, j));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void update(double dt) override 
     {
         auto& players = get_array<CompPlayer>(); 
         auto& player1 = players[0]; 
         auto cam1 = player1.sibling<CompCamera>(); 
         auto pos1 = player1.sibling<CompPosition>(); 
-        auto& loaded_chunks = get_array<CompLoadedChunks>()[0]; 
-        auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0]; 
-        ChunkCoord highest_priority_chunk = get_chunk_to_load(pos1->pos, cam1->camera.get_projection());
-        ChunkData new_chunk = island.get_chunk(highest_priority_chunk.x, 
-                                               highest_priority_chunk.y,
-                                               highest_priority_chunk.z,
-                                               CHUNK_SIZE_X,
-                                               CHUNK_SIZE_Y,
-                                               CHUNK_SIZE_Z);
-        loaded_chunks.chunks.insert(highest_priority_chunk);
-        chunk_data_queue.chunks.push_back(new_chunk);
+        auto& loaded_chunks = get_array<CompLoadedChunks>()[0];
+        auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
+        if (chunk_data_queue.do_load_chunks)
+        {
+            ChunkCoord highest_priority_chunk = get_chunk_to_load(pos1->pos, cam1->camera.get_projection());
+            ChunkData new_chunk;
+            new_chunk.data = island.get_chunk(highest_priority_chunk.x,
+                highest_priority_chunk.y,
+                highest_priority_chunk.z,
+                CHUNK_SIZE_X,
+                CHUNK_SIZE_Y,
+                CHUNK_SIZE_Z);
+            new_chunk.coord = highest_priority_chunk;
+            loaded_chunks.chunks.insert(highest_priority_chunk);
+            chunk_data_queue.chunks.push_back(new_chunk);
+        }
 
         for (auto& p : players)
         {

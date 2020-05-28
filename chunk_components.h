@@ -7,7 +7,11 @@
 #include "component.h"
 #include "terrain_types.h"
 
-typedef std::vector<BlockType> ChunkData;
+struct ChunkData
+{
+    ChunkCoord coord;
+    std::vector<BlockType> data;
+};
 
 class CompLoadedChunks : public Component
 {
@@ -18,6 +22,7 @@ public:
 class CompChunkDataQueue : public Component 
 {
 public:
+    bool do_load_chunks = false;
     std::deque<ChunkData> chunks;
 };
 

@@ -19,14 +19,21 @@
 class System
 {
 public:
+
+    // Constructure should likely not be overridden. 
+    // init_update should be used for first update but also
+    // should be avoided.
     System():
         logger("default_log", {}) 
     {    
     }
 
+    // Run at first overall update after manager and everything
+    // is initialized
     virtual void init_update() {};
     virtual void update(double dt) = 0;
 
+    // Only used to provide component getting interface
     void _pre_init(std::function<ComponentArrayBase*(CompType)> f)
     {
         get_array_base = f;

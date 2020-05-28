@@ -28,7 +28,7 @@ public:
         
 	}
 
-    std::vector<int> get_chunk(int x, int y, int z,
+    std::vector<BlockType> get_chunk(int x, int y, int z,
         unsigned int size_x, unsigned int size_y, unsigned int size_z)
     {
         x = x + 5*128;
