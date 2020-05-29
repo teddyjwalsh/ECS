@@ -10,9 +10,9 @@
 #define CHUNK_SIZE_X 128
 #define CHUNK_SIZE_Y 128
 #define CHUNK_SIZE_Z 16
-#define MAP_SIZE_X 10
-#define MAP_SIZE_Y 20
-#define MAP_SIZE_Z 10
+#define MAP_SIZE_X 4
+#define MAP_SIZE_Y 4
+#define MAP_SIZE_Z 4
 
 class SysTerrain : public System
 {
@@ -27,12 +27,12 @@ public:
     {
         auto& loaded_chunks = get_array<CompLoadedChunks>()[0];
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
-        int radius = 3;
-        int radius2 = 3;
+        int radius = MAP_SIZE_X;
+        int radius2 = MAP_SIZE_Y;
         
         for (int i = 0; i < radius; ++i)
         {
-            for (int k = 0; k < 3; ++k)
+            for (int k = 0; k < MAP_SIZE_Z; ++k)
             {
                 for (int j = 0; j < radius2; ++j)
                 {
