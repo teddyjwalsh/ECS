@@ -30,6 +30,7 @@ public:
     using Component::Component;
     float mass;
     glm::vec3 vel;
+    glm::vec3 move_vel;
 private:
     void set_type() override { _type = type_id<CompPhysics>; }
 };

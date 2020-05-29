@@ -27,12 +27,12 @@ public:
     {
         auto& loaded_chunks = get_array<CompLoadedChunks>()[0];
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
-        int radius = 10;
-        int radius2 = 10;
+        int radius = 3;
+        int radius2 = 3;
         
         for (int i = 0; i < radius; ++i)
         {
-            for (int k = 0; k < 20; ++k)
+            for (int k = 0; k < 3; ++k)
             {
                 for (int j = 0; j < radius2; ++j)
                 {

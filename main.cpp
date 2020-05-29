@@ -11,6 +11,7 @@
 #include "terrain_system.h"
 #include "raytracing_system.h"
 #include "input_system.h"
+#include "action_system.h"
 #include "time_component.h"
 #include "client_component.h"
 
@@ -66,6 +67,7 @@ int main()
     auto is = std::make_shared<SysInput>();
     auto pus = std::make_shared<SysPickup>();
     auto rts = std::make_shared<SysRaytrace>();
+    auto as = std::make_shared<SysAction>();
     std::cout << type_id<CompPhysics> << "\n";
     std::cout << type_id<CompPosition> << "\n";
     std::cout << type_id<CompBounds> << "\n";
@@ -79,6 +81,7 @@ int main()
     c->add_system(is);
     c->add_system(pus);
     c->add_system(rts);
+    c->add_system(as);
     c->init_update();
     for (int i = 0; i < 1000; ++i)
     {
