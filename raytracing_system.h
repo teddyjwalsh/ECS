@@ -30,6 +30,8 @@ public:
         auto& cam = get_array<CompCamera>()[0];
         auto& cg = get_array<CompGraphics>()[0];
         cg.window = graphics::window;
+        auto pos = cam.sibling<CompPosition>();
+        _rt->set_ref(pos->pos);
         _rt->set_camera(&cam.camera);
 
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
@@ -38,7 +40,7 @@ public:
         {
             auto new_chunk = chunk_data_queue.chunks.front();
             chunk_data_queue.chunks.pop_front();
-            _rt->add_chunk(new_chunk.coord.x, new_chunk.coord.y, new_chunk.coord.z, new_chunk.data);
+            _rt->add_chunk(new_chunk.coord.x*CHUNK_SIZE_X, new_chunk.coord.y*CHUNK_SIZE_Y, new_chunk.coord.z*CHUNK_SIZE_Z, new_chunk.data);
         }
     }
 

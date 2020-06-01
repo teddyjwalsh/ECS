@@ -110,7 +110,9 @@ public:
                            (bounds.z / 2.0 + block_depth / 2.0);
             if (y_pen > 0 && x_pen > 0 && z_pen > 0)
             {
+                SLOG_DEBUG("Corrected Z collision {}, {}, {}, {}, {}", z_pen, pos.z, vel.z, sgn(vel.z), bounds.z);
                 pos.z -= z_pen*sgn(vel.z)*1.01;
+                SLOG_DEBUG("\t after: {}", pos.z);
                 vel.z = 0;
             }
         }

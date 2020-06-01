@@ -67,6 +67,7 @@ public:
         in_sinks.push_back(_sys_console_sink); 
         logger = spdlog::logger(_type_name + "_log", in_sinks.begin(), in_sinks.end());
         logger.set_level(spdlog::level::trace);
+        logger.flush_on(spdlog::level::debug);
         SLOG_TRACE("TEST!");
     }
 
