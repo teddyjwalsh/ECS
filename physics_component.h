@@ -20,6 +20,7 @@ public:
     CompBounds():
         bounds(0.9,1.8,0.9) {}
     glm::vec3 bounds;
+    bool on_ground;
 private:
     void set_type() override { _type = type_id<CompBounds>; }
 };

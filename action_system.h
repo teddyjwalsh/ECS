@@ -11,6 +11,7 @@
 #include "system.h"
 
 #define MAX_SPEED 10
+#define JUMP_IMPULSE 20
 
 
 class SysAction: public System
@@ -56,6 +57,10 @@ public:
         {
             physics->vel.x = 0;
             physics->vel.z = 0;
+        }
+        if (physics->on_ground && key_state->push[GLFW_KEY_SPACE])
+        {
+            physics->vel.y += JUMP_IMPULSE;
         }
     }
 
