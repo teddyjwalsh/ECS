@@ -65,7 +65,7 @@ public:
                     SLOG_DEBUG("\tBlock {} {} {}", k.first.x, k.first.y, k.first.z);
                     kv.push_back(k.first + glm::vec3(0.5));
                 }
-                move(dt, pos_comp->pos, (*it).vel, bounds_comp->bounds, kv); 
+                move(dt, pos_comp->pos, (*it).vel, bounds_comp->bounds, (*it).on_ground, kv); 
             }
 
             // Apply kinematics and gravity
@@ -78,6 +78,7 @@ public:
               glm::vec3& pos,
               glm::vec3& vel,
               glm::vec3& bounds,
+              bool& on_ground,
               std::vector<glm::vec3> in_blocks)
     {
         double block_height = 1.0;
@@ -130,6 +131,7 @@ public:
                 pos.y -= y_pen*sgn(vel.y)*1.01;
                 SLOG_DEBUG("\t after: {}", pos.y);
                 vel.y = 0;
+                on_ground = true;
             }
         }
     }
