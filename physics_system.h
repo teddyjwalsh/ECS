@@ -94,6 +94,7 @@ public:
                            (bounds.z / 2.0 + block_depth / 2.0);
             if (y_pen > 0 && x_pen > 0 && z_pen > 0)
             {
+                SLOG_DEBUG("Corrected X collision {}, {}, {}, {}, {}", x_pen, pos.x, vel.x, sgn(vel.x), bounds.x);
                 pos.x -= x_pen*sgn(vel.x)*1.01;
                 vel.x = 0;
             }
@@ -112,7 +113,6 @@ public:
             {
                 SLOG_DEBUG("Corrected Z collision {}, {}, {}, {}, {}", z_pen, pos.z, vel.z, sgn(vel.z), bounds.z);
                 pos.z -= z_pen*sgn(vel.z)*1.01;
-                SLOG_DEBUG("\t after: {}", pos.z);
                 vel.z = 0;
             }
         }
@@ -126,14 +126,16 @@ public:
                            (bounds.x / 2.0 + block_width / 2.0);
             double z_pen = -std::abs(pos.z - in_block.z) +
                            (bounds.z / 2.0 + block_depth / 2.0);
+            SLOG_DEBUG("Potential Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
+            SLOG_DEBUG("Pens: {} {} {}", y_pen, x_pen, z_pen);
             if (y_pen > 0 && x_pen > 0 && z_pen > 0)
             {
                 SLOG_DEBUG("Corrected Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
                 pos.y -= y_pen*sgn(vel.y)*1.01;
-                SLOG_DEBUG("\t after: {}", pos.y);
                 vel.y = 0;
             }
         }
+        SLOG_DEBUG("\t after pos: {} {} {}", pos.x, pos.y, pos.z);
     }
 };
 

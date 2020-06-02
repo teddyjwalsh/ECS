@@ -101,8 +101,8 @@ public:
                             CompPosition * player_pos,
                             CompBounds * player_bounds)
     {
-        glm::ivec3 start_block = glm::floor(player_pos->pos - player_bounds->bounds/2.0);
-        glm::ivec3 end_block = glm::floor(player_pos->pos + player_bounds->bounds/2.0) + glm::vec3(1,1,1);
+        glm::ivec3 start_block = glm::floor(player_pos->pos - 1*player_bounds->bounds);
+        glm::ivec3 end_block = glm::floor(player_pos->pos + 1*player_bounds->bounds) + glm::vec3(1,1,1);
         glm::ivec3 block_size = end_block - start_block;
         std::vector<BlockType> blocks = island.get_chunk(start_block.x, start_block.y, start_block.z,
                                                          block_size.x, block_size.y, block_size.z); 
@@ -119,10 +119,11 @@ public:
                     BlockType block_type = blocks[(k-start_block.x) + 
                         block_size.x*(j-start_block.y) + 
                         block_size.x*block_size.y*(i-start_block.z)];
+                    SLOG_DEBUG("potential player terrain block : {} {} {}", k, j, i);
                     if (block_type > 0)
                     {
-                        SLOG_DEBUG("Player terrain block : {} {} {}", i, j, k);
-                        player_terrain->blocks[glm::vec3(i,j,k)] = block_type;
+                        SLOG_DEBUG("Player terrain block : {} {} {}", k, j, i);
+                        player_terrain->blocks[glm::vec3(k,j,i)] = block_type;
                     }
                 }
             }
