@@ -119,7 +119,7 @@ public:
         }
 
         pos.y += vel.y*time_delta;
-        on_ground = false;
+        on_ground = false;   
         for (auto in_block : in_blocks)
         {
             double y_pen = -std::abs(pos.y - in_block.y) +

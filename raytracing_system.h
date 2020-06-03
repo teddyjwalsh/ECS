@@ -33,6 +33,10 @@ public:
         auto pos = cam.sibling<CompPosition>();
         _rt->set_ref(pos->pos);
         _rt->set_camera(&cam.camera);
+        _rt->set_textures({ "images/grass.bmp", "images/grass_top.bmp", "images/grass_bottom.bmp",
+                       "images/stone.bmp", "images/stone.bmp", "images/stone.bmp",
+                        "images/grass_bottom.bmp", "images/grass_bottom.bmp", "images/grass_bottom.bmp",
+                        "images/sand.bmp", "images/sand.bmp", "images/sand.bmp" });
 
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
 
