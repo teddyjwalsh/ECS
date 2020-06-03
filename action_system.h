@@ -44,19 +44,42 @@ public:
         cam.set_forward_vector(fv);
 
         // WASD Movement
-        if (key_state->pressed[GLFW_KEY_W])
-        {
-            fv = cam.get_forward_vector(); 
-            fv = glm::normalize(glm::vec3(fv.x, 0, fv.z));
-            //glm::vec3 vel_component = glm::vec3(fv)*glm::dot(physics->vel, fv);
-            physics->vel.x = 0;
-            physics->vel.z = 0;
-            physics->vel += fv*MAX_SPEED;
-        }
-        else
+        if (physics->on_ground)
         {
             physics->vel.x = 0;
             physics->vel.z = 0;
+            if (key_state->pressed[GLFW_KEY_W])
+            {
+                fv = cam.get_forward_vector(); 
+                fv = glm::normalize(glm::vec3(fv.x, 0, fv.z));
+                glm::vec3 vel_component = glm::vec3(fv)*glm::dot(physics->vel, fv);
+                physics->vel -= vel_component;
+                physics->vel += fv*MAX_SPEED;
+            }
+            if (key_state->pressed[GLFW_KEY_A])
+            {
+                fv = -cam.get_right_vector(); 
+                fv = glm::normalize(glm::vec3(fv.x, 0, fv.z));
+                glm::vec3 vel_component = glm::vec3(fv)*glm::dot(physics->vel, fv);
+                physics->vel -= vel_component;
+                physics->vel += fv*MAX_SPEED;
+            }
+            if (key_state->pressed[GLFW_KEY_D])
+            {
+                fv = cam.get_right_vector(); 
+                fv = glm::normalize(glm::vec3(fv.x, 0, fv.z));
+                glm::vec3 vel_component = glm::vec3(fv)*glm::dot(physics->vel, fv);
+                physics->vel -= vel_component;
+                physics->vel += fv*MAX_SPEED;
+            }
+            if (key_state->pressed[GLFW_KEY_S])
+            {
+                fv = -cam.get_forward_vector(); 
+                fv = glm::normalize(glm::vec3(fv.x, 0, fv.z));
+                glm::vec3 vel_component = glm::vec3(fv)*glm::dot(physics->vel, fv);
+                physics->vel -= vel_component;
+                physics->vel += fv*MAX_SPEED;
+            }
         }
         if (physics->on_ground && key_state->push[GLFW_KEY_SPACE])
         {
