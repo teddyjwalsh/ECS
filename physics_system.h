@@ -119,6 +119,7 @@ public:
         }
 
         pos.y += vel.y*time_delta;
+        on_ground = false;
         for (auto in_block : in_blocks)
         {
             double y_pen = -std::abs(pos.y - in_block.y) +
@@ -129,6 +130,7 @@ public:
                            (bounds.z / 2.0 + block_depth / 2.0);
             SLOG_DEBUG("Potential Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
             SLOG_DEBUG("Pens: {} {} {}", y_pen, x_pen, z_pen);
+            
             if (y_pen > 0 && x_pen > 0 && z_pen > 0)
             {
                 SLOG_DEBUG("Corrected Y collision {}, {}, {}, {}, {}", y_pen, pos.y, vel.y, sgn(vel.y), bounds.y);
