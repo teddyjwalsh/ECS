@@ -832,7 +832,7 @@ void intersect_boxes_index(int in_index, inout HitInfo hit)
 
 // "hit" defined as a change in refractive index
 // Assuming one initial ray for now
-vec4 trace(vec3 origin, vec3 dir, inout vec4 norm, inout vec3 hit_loc)
+vec4 trace(vec3 origin, vec3 dir, inout vec4 norm, inout vec3 hit_loc, intout int block_type)
 {
     // Final output light. Ray results are added to this
     vec4 out_light = vec4(0.0, 0.0, 0.0, 1.0);
@@ -869,6 +869,7 @@ vec4 trace(vec3 origin, vec3 dir, inout vec4 norm, inout vec3 hit_loc)
                 intersect_boxes_index(next_ray, hit);
                 if (i == 0)
                 {
+                    block_type = hit.block_type;
                     if (!(include_first_bounce > 0))
                     {
                         //if (hit.distance > 300)
@@ -1030,7 +1031,8 @@ void main()
         vec4 norm;
         vec3 hit_loc;
         float reactivity = 0;
-        vec4 ret = trace(eye, dir, norm, hit_loc);
+        int block_type = -1;
+        vec4 ret = trace(eye, dir, norm, hit_loc, block_type);
         if (include_first_bounce > 0)
         {
             /*

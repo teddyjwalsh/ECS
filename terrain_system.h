@@ -65,6 +65,7 @@ public:
         auto& loaded_chunks = get_array<CompLoadedChunks>()[0];
         auto& chunk_data_queue = get_array<CompChunkDataQueue>()[0];
         auto& island = get_array<CompIsland>()[0];
+
         if (chunk_data_queue.do_load_chunks)
         {
             ChunkCoord highest_priority_chunk = get_chunk_to_load(pos1->pos, cam1->camera.get_projection());
