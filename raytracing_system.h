@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "graphics/raytracer.h"
+#include "raytracer.h"
 #include "terrain_system.h"
 #include "graphics_component.h"
 

@@ -2,7 +2,7 @@
 #define CAMERA_COMPONENT_H_
 
 #include "component.h"
-#include "graphics/camera.h"
+#include "camera.h"
 
 class CompCamera : public Component
 {
