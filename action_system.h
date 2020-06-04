@@ -44,7 +44,7 @@ public:
         cam.set_forward_vector(fv);
 
         // WASD Movement
-        if (physics->on_ground)
+        if (1)//physics->on_ground)
         {
             physics->vel.x = 0;
             physics->vel.z = 0;
