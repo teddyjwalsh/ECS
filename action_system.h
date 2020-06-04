@@ -11,7 +11,7 @@
 #include "system.h"
 
 #define MAX_SPEED 10
-#define JUMP_IMPULSE 20
+#define JUMP_IMPULSE 6
 
 
 class SysAction: public System

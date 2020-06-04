@@ -60,7 +60,7 @@ int main()
                    uint32_t(type_id<CompPosition>),
                    uint32_t(type_id<CompBounds>),
                    uint32_t(type_id<CompOctree>)});
-    c->set_entity_pos(player2, glm::vec3(10,20,0));
+    c->set_entity_pos(player2, glm::vec3(10,50,0));
 
     auto ps = std::make_shared<SysPhysics>();
     auto ts = std::make_shared<SysTime>();

@@ -75,7 +75,7 @@ private:
     int x_map_size = MAP_SIZE_X;
     int y_map_size = MAP_SIZE_Y;
     int z_map_size = MAP_SIZE_Z;
-    float low_res_div = 6;
+    float low_res_div = 4;
     int x_res = 1024;
     int y_res = 768;
 

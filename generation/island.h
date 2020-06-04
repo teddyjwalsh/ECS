@@ -51,11 +51,13 @@ public:
             {
                 for (int k = 0; k < size_x; ++k)
                 {
+/*
                     if (y+j == 0)
                     { out_vec.push_back(1); b_contains = true; }
                     else
                     { out_vec.push_back(0); }
                     continue;
+*/
 #ifdef FNSD
                     float a = 10*std::max(-2.0f, float(log(10.5f * _simp_noise2[i + k * size_x])));
                     float b = pow(2.2 * (_mount_noise[i + k * size_x]+1), 3.2);
