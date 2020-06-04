@@ -7,6 +7,11 @@
 class CompIsland : public Component
 {
 public:
+    CompIsland() :
+        island(1)
+    {
+    }
+
     generation::Island island;
     
 private:

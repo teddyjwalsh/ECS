@@ -36,11 +36,13 @@ int main()
     c->add_array<CompGraphics>();
     c->add_array<CompPickupper>();
     c->add_array<CompPickupee>();
+    c->add_array<CompIsland>();
     c->add_component<CompTime>();
     c->add_component<CompOctreeRoot>();
     c->add_component<CompLoadedChunks>();
     c->add_component<CompChunkDataQueue>();
     c->add_component<CompGraphics>();
+    c->add_component<CompIsland>();
     EntityId player = c->add_entity({
                    uint32_t(type_id<CompPhysics>), 
                    uint32_t(type_id<CompPosition>),
@@ -58,7 +60,7 @@ int main()
                    uint32_t(type_id<CompPosition>),
                    uint32_t(type_id<CompBounds>),
                    uint32_t(type_id<CompOctree>)});
-    c->set_entity_pos(player2, glm::vec3(10,20,0));
+    c->set_entity_pos(player2, glm::vec3(10,50,0));
 
     auto ps = std::make_shared<SysPhysics>();
     auto ts = std::make_shared<SysTime>();
