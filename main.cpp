@@ -85,7 +85,7 @@ int main()
     c->add_system(rts);
     c->add_system(as);
     c->init_update();
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < 100000; ++i)
     {
         c->update();
     }

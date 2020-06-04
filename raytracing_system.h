@@ -55,6 +55,7 @@ public:
         _rt->set_ref(pos->pos);
         _rt->draw(x_res / low_res_div, y_res / low_res_div, 5, false, false);
         _rt->draw(x_res, y_res, 1, true, true);
+        int block_type = _rt->get_screen_loc_block_type(0.5, 0.5);
         cam.camera.set_pos(pos->pos + glm::vec3(0,0.5,0));
         _rt->set_camera(&cam.camera);
 
