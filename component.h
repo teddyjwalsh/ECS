@@ -22,7 +22,7 @@ public:
     // Used by systems to get other components
     // owned by the entity that owns this component
     template <class SibType>
-    SibType * sibling()
+    SibType * sibling() const
     {
         SibType * sib = static_cast<SibType*>(
             get_component(type_id<SibType>, _entity_id));
@@ -42,7 +42,7 @@ public:
 
     virtual void set_type() { _type = type_id<Component>; }
 
-    EntityId get_entity() { return _entity_id; }
+    EntityId get_entity() const { return _entity_id; }
 
 protected:
     std::function<Component*(CompType, EntityId)> get_component;

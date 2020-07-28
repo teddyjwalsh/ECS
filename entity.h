@@ -5,7 +5,7 @@
 
 #include "component.h"
 
-class Entity
+class Entity final
 {
 
 public:

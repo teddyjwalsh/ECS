@@ -16,9 +16,15 @@
 #define SLOG_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(&logger, __VA_ARGS__)
 #define SLOG_INFO(...) SPDLOG_LOGGER_INFO(&logger, __VA_ARGS__)
 
+// Fundamental base class for implementing behavior in the ECS engine.
+// Any non-data functionality for the ECS engine should be implemented through
+// a system. Systems should not have state. State should be implemented through
+// Compomenents
 class System
 {
 public:
+
+    // Manager's interface with the System
 
     // Constructure should likely not be overridden. 
     // init_update should be used for first update but also
@@ -28,33 +34,11 @@ public:
     {    
     }
 
-    // Run at first overall update after manager and everything
-    // is initialized
-    virtual void init_update() {};
-    virtual void update(double dt) = 0;
-
     // Only used to provide component getting interface
     void _pre_init(std::function<ComponentArrayBase*(CompType)> f)
     {
         get_array_base = f;
     }
-
-    CompType get_type() const
-    {
-        return _type;
-    }
-    template <class CompType>
-    std::vector<CompType>& get_array()
-    {
-        return dynamic_cast<ComponentArray<CompType>*>(get_array_base(type_id<CompType>))->_array;
-    } 
-
-    std::string& get_type_name()
-    {
-        return _type_name;
-    }
-
-    std::string _type_name = "default";
     
     void _set_log_sinks(std::vector<std::shared_ptr<spdlog::sinks::sink>> in_sinks)
     {
@@ -71,7 +55,32 @@ public:
         SLOG_TRACE("TEST!");
     }
 
+    const std::string& get_type_name() const
+    {
+        return _type_name;
+    }
+
+    // Run at first overall update after manager and everything
+    // is initialized
+    virtual void init_update() {};
+    virtual void update(double dt) = 0;
+
+    CompType get_type() const
+    {
+        return _type;
+    }
+
 protected:
+    // Used by derivced systems to get components of a certain type
+    template <class CompType>
+    std::vector<CompType>& get_array() const
+    {
+        return dynamic_cast<ComponentArray<CompType>*>(get_array_base(type_id<CompType>))->_array;
+    } 
+
+    std::string _type_name = "default";
+
+
     CompType _type;
     std::function<ComponentArrayBase*(CompType)> get_array_base;
     spdlog::logger logger;
