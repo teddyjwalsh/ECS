@@ -7,7 +7,7 @@ The goal of this project is to explore the development of a modular, fast, entit
 2. A design that lends itself to networking and ease of conversion to net-capable projects
 3. Performant enough for intensive voxel game designs
 
-These three things are what led to the decision of using the established ECS architecture. The inspiration for how I approached the fundamental design decisions came from a GDC talk by one of the lead Overwatch (a popular shooting game) developers: https://www.youtube.com/watch?v=W3aieHjyNvw
+These three things are what led to the decision of using the established ECS architecture. The inspiration for how I approached the fundamental design decisions came from a GDC talk by one of the lead Overwatch (a popular shooting game) developers: https://www.youtube.com/watch?v=W3aieHjyNvw.
 I really liked the strictness of their abstraction of systems as well as the strictness of their separation of data and function. 
 
 With these considerations, I created the framework out of a few basic constructs.
@@ -31,3 +31,5 @@ C++ Implementation: system.h, class System
 ### Component Manager
 The Component Manager is what ties everything together. It allocates memory for components, runs systems, and currently provides the basic interface for starting and running the game.
 C++ Implementation: component_manager.h, class ComponentManager
+
+Upon this basic framework, some basic common helper classes are build including user input, graphics (using my ugli library), player, and voxel systems/components are implemented.
