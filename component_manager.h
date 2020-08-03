@@ -15,6 +15,7 @@
 #include "entity.h"
 #include "physics_component.h"
 #include "type_id.h"
+#include "system_interface.h"
 
 #define SLOG_TRACE(...) SPDLOG_LOGGER_TRACE(&logger, __VA_ARGS__)
 #define SLOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(&logger, __VA_ARGS__)
@@ -53,6 +54,11 @@ public:
 
         logger = spdlog::logger(std::string("manager_log"), {_file_sink, _console_sink});
         logger.set_level(spdlog::level::trace);
+
+        // Initialize interface systems use to access components
+        _system_interface.get_array_base = get_array_func;
+        _system_interface.add_entity = [=](auto a) { return this->add_entity(_entity_types[a]); };
+        _system_interface.add_entity_pos = [=](auto a, auto b) { return this->add_entity(_entity_types[a], b); };
     }
 
     // Add array currently allocates a ComponentArray
@@ -104,7 +110,7 @@ public:
     // Adds an entity to the manager.
     // Entities are currently, for the most part
     // just numbers that have associations with components
-    EntityId add_entity(std::vector<CompType> in_types)
+    EntityId add_entity(const std::vector<CompType>& in_types)
     {
         EntityId out_id = _entity_counter;
         _entities[out_id] = Entity();
@@ -117,13 +123,24 @@ public:
         return out_id; 
     }
 
+    // Adds an entity to the manager at certain CompPosition.
+    // Entities are currently, for the most part
+    // just numbers that have associations with components
+    EntityId add_entity(const std::vector<CompType>& in_types, glm::vec3 pos)
+    {
+        EntityId out_id = add_entity(in_types);
+        auto c_pos = entity_component<CompPosition>(out_id);
+        c_pos->pos = pos;
+        return out_id;
+    }
+
     // Adds a system to the manager. Once added, the system will update 
     // at every manager update call
     void add_system(std::shared_ptr<System> in_system)
     {
         SLOG_INFO("Adding system ", in_system->get_type_name());            
         _systems.push_back(in_system);
-        _systems.back()->_pre_init(get_array_func);
+        _systems.back()->_pre_init(_system_interface);
         _systems.back()->_set_log_sinks({_file_sink});
     }
 
@@ -198,8 +215,15 @@ public:
         }        
     }
 
+    // This is how a game specifies pre-set entity types via a list of component types
+    void set_entity_types(std::map<std::string, std::vector<CompType>>& in_types)
+    {
+        _entity_types = in_types;
+    }
+
     std::unordered_map<CompType, std::shared_ptr<ComponentArrayBase>> _arrays;
 private:
+    SystemInterface _system_interface;
     std::function<Component*(CompType, EntityId)> get_component;
     std::function<ComponentArrayBase*(CompType)> get_array_func;
     std::unordered_map<EntityId, Entity> _entities;
@@ -207,6 +231,7 @@ private:
     std::vector<std::shared_ptr<System>> _systems;
     std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> _console_sink;
     std::shared_ptr<spdlog::sinks::basic_file_sink_mt> _file_sink;
+    std::map<std::string, std::vector<CompType>> _entity_types;
     EntityId _entity_counter;
     spdlog::logger logger;
 };

@@ -8,6 +8,7 @@
 
 #include "component.h"
 #include "component_array.h"
+#include "system_interface.h"
 
 #define SLOG_TRACE(...) SPDLOG_LOGGER_TRACE(&logger, __VA_ARGS__)
 #define SLOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(&logger, __VA_ARGS__)
@@ -35,9 +36,9 @@ public:
     }
 
     // Only used to provide component getting interface
-    void _pre_init(std::function<ComponentArrayBase*(CompType)> f)
+    void _pre_init(SystemInterface in_interface)
     {
-        get_array_base = f;
+        interface = in_interface;
     }
     
     void _set_log_sinks(std::vector<std::shared_ptr<spdlog::sinks::sink>> in_sinks)
@@ -75,14 +76,14 @@ protected:
     template <class CompType>
     std::vector<CompType>& get_array() const
     {
-        return dynamic_cast<ComponentArray<CompType>*>(get_array_base(type_id<CompType>))->_array;
+        return dynamic_cast<ComponentArray<CompType>*>(interface.get_array_base(type_id<CompType>))->_array;
     } 
 
     std::string _type_name = "default";
 
 
     CompType _type;
-    std::function<ComponentArrayBase*(CompType)> get_array_base;
+    SystemInterface interface;
     spdlog::logger logger;
     std::shared_ptr<spdlog::sinks::basic_file_sink_mt> _sys_file_sink;
     std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> _sys_console_sink;
