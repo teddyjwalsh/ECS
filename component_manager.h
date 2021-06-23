@@ -141,7 +141,8 @@ public:
         SLOG_INFO("Adding system ", in_system->get_type_name());            
         _systems.push_back(in_system);
         _systems.back()->_pre_init(_system_interface);
-        _systems.back()->_set_log_sinks({_file_sink});
+        std::vector<spdlog::sink_ptr> temp_vec = { _file_sink };
+        _systems.back()->_set_log_sinks(temp_vec);
     }
 
     ComponentArrayBase * get_array_p(CompType in_type)

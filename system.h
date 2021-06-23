@@ -5,6 +5,8 @@
 #include <memory>
 
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 #include "component.h"
 #include "component_array.h"
@@ -24,7 +26,7 @@
 class System
 {
 public:
-
+    
     // Manager's interface with the System
 
     // Constructure should likely not be overridden. 
@@ -34,15 +36,16 @@ public:
         logger("default_log", {}) 
     {    
     }
-
+    
     // Only used to provide component getting interface
     void _pre_init(SystemInterface in_interface)
     {
-        interface = in_interface;
+        _interface = in_interface;
     }
     
-    void _set_log_sinks(std::vector<std::shared_ptr<spdlog::sinks::sink>> in_sinks)
+    void _set_log_sinks(std::vector<std::shared_ptr<spdlog::sinks::sink>>& in_sinks)
     {
+        
         _sys_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + _type_name + ".txt", true);
         _sys_file_sink->set_level(spdlog::level::trace);
         _sys_console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -54,6 +57,7 @@ public:
         logger.set_level(spdlog::level::trace);
         logger.flush_on(spdlog::level::debug);
         SLOG_TRACE("TEST!");
+        
     }
 
     const std::string& get_type_name() const
@@ -76,17 +80,19 @@ protected:
     template <class CompType>
     std::vector<CompType>& get_array() const
     {
-        return dynamic_cast<ComponentArray<CompType>*>(interface.get_array_base(type_id<CompType>))->_array;
+        return dynamic_cast<ComponentArray<CompType>*>(_interface.get_array_base(type_id<CompType>))->_array;
     } 
-
+    
     std::string _type_name = "default";
 
 
     CompType _type;
-    SystemInterface interface;
+    SystemInterface _interface;
     spdlog::logger logger;
     std::shared_ptr<spdlog::sinks::basic_file_sink_mt> _sys_file_sink;
     std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> _sys_console_sink;
+    
+    
 };
 
 #endif  // SYSTEM_H_

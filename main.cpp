@@ -7,17 +7,14 @@
 #include "time_system.h"
 #include "component_manager.h"
 #include "pickup_system.h"
-#include "octree_system.h"
-#include "terrain_system.h"
-#include "raytracing_system.h"
 #include "input_system.h"
-#include "action_system.h"
 #include "time_component.h"
 #include "client_component.h"
 
 
 int main()
 {
+    /*
     spdlog::set_level(spdlog::level::trace);
     auto c = std::make_shared<ComponentManager>();
     c->add_array<CompPosition>();
@@ -33,7 +30,7 @@ int main()
     c->add_array<CompPlayerTerrain>();
     c->add_array<CompOctreeRoot>();
     c->add_array<CompKeyState>();
-    c->add_array<CompGraphics>();
+    c->add_array<CompGraphics>(); 
     c->add_array<CompPickupper>();
     c->add_array<CompPickupee>();
     c->add_array<CompIsland>();
@@ -89,4 +86,5 @@ int main()
     {
         c->update();
     }
+    */
 }

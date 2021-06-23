@@ -2,8 +2,8 @@
 #define KEYSTATE_COMPONENT_H_
 
 #include <unordered_map>
-#include "glfw_defines.h"
 
+#include "GLFW/glfw3.h"
 #include "component.h"
 
 class CompKeyState : public Component

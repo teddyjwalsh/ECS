@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "glm/glm.hpp"
 #include "entity.h"
 
 class SystemInterface

@@ -1,7 +1,6 @@
 #ifndef INPUT_SYSTEM_H_
 #define INPUT_SYSTEM_H_
 
-#include "glfw_defines.h"
 #include "system.h"
 #include "keystate_component.h"
 #include "graphics_component.h"

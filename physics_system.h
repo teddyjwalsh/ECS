@@ -4,7 +4,7 @@
 #include <math.h>
 #include <memory>
 #include <iostream>
-#include <glm/ext.hpp>
+#include "glm/ext.hpp"
 
 #include "component_manager.h"
 #include "type_id.h"

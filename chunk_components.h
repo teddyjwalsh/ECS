@@ -3,6 +3,7 @@
 
 #include <set>
 #include <vector>
+#include <unordered_set>
 
 #include "component.h"
 #include "terrain_types.h"
