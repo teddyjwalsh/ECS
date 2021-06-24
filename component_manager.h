@@ -59,6 +59,7 @@ public:
         _system_interface.get_array_base = get_array_func;
         _system_interface.add_entity = [=](auto a) { return this->add_entity(_entity_types[a]); };
         _system_interface.add_entity_pos = [=](auto a, auto b) { return this->add_entity(_entity_types[a], b); };
+        _system_interface.add_entity_with_components = [=](auto a) { return this->add_entity(a); };
     }
 
     // Add array currently allocates a ComponentArray
