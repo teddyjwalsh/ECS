@@ -13,7 +13,7 @@ public:
         std::vector<CompTime>& array = get_array<CompTime>();
         CompTime& time_comp = array[0];
         time_comp.current_time += dt;
-        std::cout << "TIME " << time_comp.current_time << "\n";
+        //std::cout << "TIME " << time_comp.current_time << "\n";
     }
 };
 

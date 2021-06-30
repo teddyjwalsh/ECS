@@ -23,7 +23,7 @@ public:
         glfwGetCursorPos(graphics_comp.window, &key_state.mouse_pos_x, &key_state.mouse_pos_y);
         int width, height;
         graphics_comp.get_window_size(width, height);
-        set_cursor_pos(width / 2, height / 2, graphics_comp.window);
+        //set_cursor_pos(width / 2, height / 2, graphics_comp.window);
 #endif  // USE_GLFW
         for (auto& k : key_state.pressed)
         {
